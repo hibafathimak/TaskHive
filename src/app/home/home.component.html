@@ -1,0 +1,358 @@
+<div class="flex">
+  <div
+    [class.w-56]="isSidebarOpen"
+    [class.w-16]="!isSidebarOpen"
+    class="h-screen w-16 bg-white p-6 transition-all duration-300 transform flex flex-col items-center ease-in-out"
+  >
+    <!-- Logo -->
+
+    @if(isSidebarOpen){
+    <div class="text-2xl font-bold mb-6">
+      <span [class.hidden]="!isSidebarOpen"
+        >Task<span class="text-primary">Wave.</span></span
+      >
+    </div>
+
+    }@else {
+    <div class="mb-6 w-12">
+      <img [src]="'/logo1.png'" alt="Logo" />
+    </div>
+
+    }
+
+    <ul class="space-y-16 mt-12 flex-1">
+      <li class="relative group">
+        <a
+          href="#dashboard"
+          class="flex items-center space-x-2 text-gray-700 hover:text-primary transition duration-200"
+        >
+          <i class="fas fa-tachometer-alt text-lg"></i>
+          <span [class.hidden]="!isSidebarOpen">Dashboard</span>
+        </a>
+        @if(!isSidebarOpen){
+        <span
+          class="absolute left-12 top-1/2 transform -translate-y-1/2 bg-primary text-white text-sm py-1 px-2 rounded-e rounded-ss opacity-0 group-hover:opacity-100 transition-opacity"
+        >
+          Dashboard </span
+        >}
+      </li>
+      <li class="relative group">
+        <a
+          href="#completed"
+          class="flex items-center space-x-2 text-gray-700 hover:text-primary transition duration-200"
+        >
+          <i class="fas fa-check-circle text-lg"></i>
+          <span [class.hidden]="!isSidebarOpen">Completed</span>
+        </a>
+        @if(!isSidebarOpen){<span
+          class="absolute left-12 top-1/2 transform -translate-y-1/2 bg-primary text-white text-sm py-1 px-2 rounded-e rounded-ss opacity-0 group-hover:opacity-100 transition-opacity"
+        >
+          Completed </span
+        >}
+      </li>
+      <li class="relative group">
+        <a
+          href="#todo"
+          class="flex items-center space-x-2 text-gray-700 hover:text-primary transition duration-200"
+        >
+          <i class="fas fa-tasks text-lg"></i>
+          <span [class.hidden]="!isSidebarOpen">To Do</span>
+        </a>
+        <!-- Tooltip -->
+        @if(!isSidebarOpen){<span
+          class="whitespace-nowrap absolute left-12 top-1/2 transform -translate-y-1/2 bg-primary text-white text-sm py-1 px-2 rounded-e rounded-ss opacity-0 group-hover:opacity-100 transition-opacity"
+        >
+          To Do </span
+        >}
+      </li>
+      <li class="relative group">
+        <a
+          href="#projects"
+          class="flex items-center space-x-2 text-gray-700 hover:text-primary transition duration-200"
+        >
+          <i class="fas fa-folder text-lg"></i>
+          <span [class.hidden]="!isSidebarOpen">Pending</span>
+        </a>
+        <!-- Tooltip -->
+        @if(!isSidebarOpen){<span
+          class="absolute left-12 top-1/2 transform -translate-y-1/2 bg-primary text-white text-sm py-1 px-2 rounded-e rounded-ss opacity-0 group-hover:opacity-100 transition-opacity"
+        >
+          Pending </span
+        >}
+      </li>
+      <li class="relative group">
+        <a
+          href="#logout"
+          class="flex items-center space-x-2 text-gray-700 hover:text-primary transition duration-200"
+        >
+          <i class="fas fa-sign-out-alt text-lg"></i>
+          <span [class.hidden]="!isSidebarOpen">Logout</span>
+        </a>
+        <!-- Tooltip -->
+        @if(!isSidebarOpen){
+        <span
+          class="absolute left-12 top-1/2 transform -translate-y-1/2 bg-primary text-white text-sm py-1 px-2 rounded-e rounded-ss opacity-0 group-hover:opacity-100 transition-opacity"
+        >
+          Logout </span
+        >}
+      </li>
+    </ul>
+  </div>
+
+  <div class="flex-1 ">
+    <nav class="bg-white p-4">
+      <div class="mx-auto flex justify-between items-center">
+        <div class="font-medium text-gray-800 flex items-center text-lg">
+          <i
+            (click)="toggleSidebar()"
+            class="toggle-btn fa-solid fa-bars me-5 cursor-pointer hidden md:block"
+          ></i>
+          <h5 class="hidden md:block">Dashboard</h5>
+        </div>
+
+        <div class="relative flex-grow md:flex-grow-0">
+          <input
+            type="text"
+            placeholder="Search Task"
+            class="px-4 py-2 border rounded-full w-full md:w-64 focus:outline-none focus:ring-1 focus:ring-secondary"
+          />
+          <i
+            class="fas fa-search absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-400 hidden md:block"
+          ></i>
+        </div>
+
+        <div class="flex items-center space-x-4">
+          <div class="text-sm text-gray-600 text-right hidden md:block">
+            Logged in as <br />
+            <span class="font-semibold text-primary">Username</span>
+          </div>
+          <div
+            class="w-10 h-10 rounded-full border flex items-center justify-center"
+          >
+            <i class="fa-regular fa-user text-gray-800"></i>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <div class="p-6 bg-secondary min-h-[85%] rounded-3xl me-10 mb-10">
+      <div class="flex flex-wrap justify-between items-center">
+        <div class="flex space-x-5 items-center">
+          <h2 class="text-2xl font-semibold text-primary">All Tasks</h2>
+        </div>
+
+        <div class="flex space-x-3">
+          <div class="relative inline-block mt-4 md:mt-0">
+            <button
+              class="w-full md:w-auto px-4 py-2 bg-white text-gray-700 border border-gray-300 rounded-2xl shadow-sm focus:ring-2 focus:ring-primary focus:outline-none transition flex items-center justify-between"
+              (click)="toggleDropdown()"
+            >
+              <span>{{ selectedOption || "Filter" }}</span>
+              <i
+                class="ms-2 fa-solid"
+                [class.fa-chevron-down]="!isDropdownOpen"
+                [class.fa-chevron-up]="isDropdownOpen"
+              ></i>
+            </button>
+
+            <ul
+              class="absolute left-0 w-full md:w-auto bg-white border border-gray-300 rounded-2xl shadow-lg mt-2"
+              [class.hidden]="!isDropdownOpen"
+            >
+              <li>
+                <button
+                  class="w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-100 transition"
+                  (click)="selectOption('All')"
+                >
+                  All
+                </button>
+              </li>
+              <li>
+                <button
+                  class="w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-100 transition"
+                  (click)="selectOption('Highest')"
+                >
+                  Highest
+                </button>
+              </li>
+              <li>
+                <button
+                  class="w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-100 transition"
+                  (click)="selectOption('Medium')"
+                >
+                  Medium
+                </button>
+              </li>
+              <li>
+                <button
+                  class="w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-100 transition"
+                  (click)="selectOption('Lowest')"
+                >
+                  Lowest
+                </button>
+              </li>
+            </ul>
+          </div>
+
+          <button
+            (click)="openmodal('add')"
+            class="px-4 rounded-xl text-3xl text-white bg-primary mt-4 md:mt-0"
+          >
+            +
+          </button>
+        </div>
+      </div>
+
+      <div class="flex items-center justify-center">
+        <div 
+          class="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 "
+        >
+        @if (tasks.length > 0) {
+          @for (task of tasks; track $index;let i=$index) {
+            <div  class="bg-white p-4 rounded-3xl my-4 shadow-md w-full">
+              <div class="flex justify-between space-x-2">
+                <p class="text-xl font-semibold my-2 text-gray-800">
+                  {{task.title}}
+                </p>
+               <button (click)="openmodal('edit',i)"> <i  class="fa-solid fa-edit cursor-pointer"></i></button>
+               <button (click)="openmodal('edit')"> <i  class="fa-solid fa-trash"></i></button>
+
+              </div>
+              <div class="border-t-2 border-gray-200 my-3"></div>
+
+              <div class="flex space-x-2 text-gray-500 text-sm">
+                <i class="fas fa-note-sticky mt-2"></i>
+                              <p>{{task.description}}</p>
+              </div>
+  
+              <div class="flex items-center space-x-2 text-gray-500 text-sm my-3">
+                <i class="fas fa-calendar"></i>
+                <p>{{task.deadline}}</p>
+              </div>
+  
+              <!-- Priority -->
+              <div class="flex items-center space-x-2 text-gray-700 text-sm my-2">
+                <i class="fas fa-exclamation-circle text-red-500"></i>
+                <p class="font-semibold">
+                  Priority: <span class="text-red-500">{{task.priority}}</span>
+                </p>
+              </div>
+  
+              <!-- Status -->
+              <div class="flex items-center space-x-2 text-gray-700 text-sm my-2">
+                <i class="fas fa-spinner text-green-500"></i>
+                <p class="font-semibold">
+                  Status: <span class="text-green-500">{{task.status}}</span>
+                </p>
+              </div>
+  
+  
+
+            </div>
+          }
+        }
+          
+         
+        </div>
+
+        <div
+        [class.hidden]="!isModalOpen"
+        [class.flex]="isModalOpen"
+        id="taskModal"
+        class="fixed inset-0 bg-gray-800 bg-opacity-50 justify-center items-center"
+      >
+        <div class="bg-white rounded-lg shadow-lg w-1/3 p-6">
+          <div class="flex justify-between items-center border-b pb-3">
+            <h3 class="text-lg font-semibold text-gray-900">
+              {{ mode === 'edit' ? 'Edit Task Details' : 'Add Task Details' }}
+            </h3>
+            <button (click)="closemodal()" class="text-gray-500 hover:text-gray-700">
+              <i class="fas fa-times"></i>
+            </button>
+          </div>
+      
+          <form (ngSubmit)="submitTask()" class="mt-4 space-y-4">
+            <!-- Title -->
+            <div>
+              <label for="title" class="block text-sm font-medium text-gray-700">Title</label>
+              <input
+                type="text"
+                id="title"
+                name="title"
+                [(ngModel)]="task.title"
+                class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 text-sm focus:ring-indigo-500 focus:border-indigo-500"
+              />
+            </div>
+      
+            <!-- Description -->
+            <div>
+              <label for="description" class="block text-sm font-medium text-gray-700">Description</label>
+              <textarea
+                id="description"
+                name="description"
+                rows="3"
+                [(ngModel)]="task.description"
+                class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 text-sm focus:ring-indigo-500 focus:border-indigo-500"
+              ></textarea>
+            </div>
+      
+            <!-- Deadline -->
+            <div>
+              <label for="deadline" class="block text-sm font-medium text-gray-700">Deadline</label>
+              <input
+                type="date"
+                id="deadline"
+                name="deadline"
+                [(ngModel)]="task.deadline"
+                class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 text-sm focus:ring-indigo-500 focus:border-indigo-500"
+              />
+            </div>
+      
+            <!-- Priority -->
+            <div>
+              <label for="priority" class="block text-sm font-medium text-gray-700">Priority</label>
+              <select
+                id="priority"
+                name="priority"
+                [(ngModel)]="task.priority"
+                class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 text-sm focus:ring-indigo-500 focus:border-indigo-500"
+              >
+                <option value="High">High</option>
+                <option value="Medium">Medium</option>
+                <option value="Low">Low</option>
+              </select>
+            </div>
+      
+            <!-- Status -->
+            <div>
+              <label for="status" class="block text-sm font-medium text-gray-700">Status</label>
+              <select
+                id="status"
+                name="status"
+                [(ngModel)]="task.status"
+                class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 text-sm focus:ring-indigo-500 focus:border-indigo-500"
+              >
+                <option value="Not Started">Not Started</option>
+                <option value="In Progress">In Progress</option>
+                <option value="Completed">Completed</option>
+              </select>
+            </div>
+      
+            <!-- Submit -->
+            <div class="mt-4">
+              <button
+                type="submit"
+                class="w-full bg-primary text-white py-2 px-4 rounded-md "
+              >
+                {{ mode === 'edit' ? 'Update Task' : 'Add Task' }}
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+      
+      
+      </div>
+    </div>
+  </div>
+</div>

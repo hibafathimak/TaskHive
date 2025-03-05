@@ -1,1 +1,49 @@
-/* You can add global styles to this file, and also import other style files */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  font-family: "Poppins", sans-serif; /* It's usually better to use sans-serif instead of serif for readability */
+}
+
+h1 {
+  @apply text-4xl font-bold; /* Define your font sizes here or in the config */
+}
+
+h2 {
+  @apply text-3xl font-semibold; /* Define font sizes here */
+}
+
+h3 {
+  @apply text-2xl font-medium; /* Define font sizes here */
+}
+
+p {
+  @apply text-base leading-relaxed; /* Apply body text styling */
+}
+
+small {
+  @apply text-sm; /* Apply small text styling */
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+    width: 10px; /* Width of the vertical scrollbar */
+    height: 10%; /* Height of the horizontal scrollbar */
+  }
+  
+  ::-webkit-scrollbar-track {
+    background: #f1f1f1; /* Track (background) color */
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    background: #373c45; /* Scrollbar thumb (handle) color (gray-800) */
+    border-radius: 10px; /* Rounded edges for the thumb */
+  }
+  
+  ::-webkit-scrollbar-thumb:hover {
+    background: #555; /* Darker color when hovered */
+  }
+  
+
+
