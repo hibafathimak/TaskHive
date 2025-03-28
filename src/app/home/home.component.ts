@@ -5,17 +5,18 @@ import { FormsModule } from '@angular/forms';
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [FormsModule,CommonModule],
+  imports: [FormsModule, CommonModule],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css',
 })
 export class HomeComponent {
+  userName: String = '';
   isSidebarOpen: boolean = false;
   isDropdownOpen: boolean = false;
   isModalOpen: boolean = false;
   selectedOption: string | null = null;
-  mode: 'add' | 'edit' = 'add'; // ✅ Default mode
-  taskIndex: number | null = null; // ✅ Store index for edit mode
+  mode: 'add' | 'edit' = 'add';
+  taskIndex: number | null = null;
   tasks: any[] = [];
 
   task = {
@@ -28,7 +29,12 @@ export class HomeComponent {
   };
 
   constructor() {
-    this.getTasks(); 
+    this.getTasks();
+  }
+
+  ngOnInit() {
+    const user = sessionStorage.getItem('user');
+    this.userName = user ? JSON.parse(user).username : '';
   }
 
   getTasks() {
@@ -53,8 +59,8 @@ export class HomeComponent {
     this.mode = mode;
 
     if (mode === 'edit' && task) {
-      this.task = { ...task }; // ✅ Load task data for editing
-      this.taskIndex = index ?? null; // ✅ Store index to update later
+      this.task = { ...task }; 
+      this.taskIndex = index ?? null;
     } else {
       this.resetTask();
     }
@@ -62,7 +68,7 @@ export class HomeComponent {
 
   closemodal() {
     this.isModalOpen = false;
-    this.taskIndex = null; // ✅ Reset index
+    this.taskIndex = null; 
   }
 
   submitTask() {
@@ -74,10 +80,10 @@ export class HomeComponent {
     let tasks = JSON.parse(localStorage.getItem('tasks') || '[]');
 
     if (this.mode === 'add') {
-      this.task.id = Date.now().toString(); // ✅ Unique ID
+      this.task.id = Date.now().toString(); 
       tasks.push(this.task);
     } else if (this.mode === 'edit' && this.taskIndex !== null) {
-      tasks[this.taskIndex] = { ...this.task }; 
+      tasks[this.taskIndex] = { ...this.task };
     }
 
     localStorage.setItem('tasks', JSON.stringify(tasks));

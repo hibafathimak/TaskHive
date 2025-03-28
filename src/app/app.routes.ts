@@ -3,10 +3,12 @@ import { HomeComponent } from './home/home.component';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { PnfComponent } from './pnf/pnf.component';
+import { authGuard } from './auth.guard';
 
 export const routes: Routes = [
+    { path: '', redirectTo: 'register', pathMatch: 'full' },
     {
-        path:'', component:HomeComponent ,title:'Home Page'
+        path:'home',canActivate:[authGuard], component:HomeComponent ,title:'Home Page'
     },
     {
         path:'login',component:LoginComponent,title:'Login'
